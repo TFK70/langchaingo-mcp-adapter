@@ -19,7 +19,7 @@ import (
 	langchaingoTools "github.com/tmc/langchaingo/tools"
 	"github.com/tmc/langchaingo/tools/wikipedia"
 
-	mcpadapter "github.com/i2y/langchaingo-mcp-adapter"
+	mcpadapter "github.com/TFK70/langchaingo-mcp-adapter"
 )
 
 func main() {

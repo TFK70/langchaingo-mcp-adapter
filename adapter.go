@@ -64,7 +64,7 @@ func (t *mcpTool) Call(ctx context.Context, input string) (string, error) {
 		return fmt.Sprintf("call the tool error: %s", err), nil
 	}
 
-	return res.Content[0].(mcp.TextContent).Text, nil
+	return res.Content[0].(mcp.EmbeddedResource).Resource.(mcp.TextResourceContents).Text, nil
 }
 
 // MCPAdapter adapts an MCP client to the LangChain Go tools interface.
