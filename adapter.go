@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
+	"reflect"
 	"time"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -64,7 +65,17 @@ func (t *mcpTool) Call(ctx context.Context, input string) (string, error) {
 		return fmt.Sprintf("call the tool error: %s", err), nil
 	}
 
-	return res.Content[0].(mcp.EmbeddedResource).Resource.(mcp.TextResourceContents).Text, nil
+	er, ok := res.Content[0].(mcp.EmbeddedResource)
+	if ok {
+		return er.Resource.(mcp.TextResourceContents).Text, nil
+
+	}
+	tc, ok := res.Content[0].(mcp.TextContent)
+	if ok {
+		return tc.Text, nil
+	}
+
+	return "", fmt.Errorf("Failed type conversions for response. Actual type is %s", reflect.TypeOf(res.Content[0]))
 }
 
 // MCPAdapter adapts an MCP client to the LangChain Go tools interface.
